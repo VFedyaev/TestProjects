@@ -57,6 +57,14 @@
     <Compile Include="Infrastructure\Exceptions\HasRelationException.cs" />
     <Compile Include="Infrastructure\Exceptions\NotFoundException.cs" />
     <Compile Include="Infrastructure\ServiceModule.cs" />
+    <Compile Include="Interfaces\ICustomerService.cs" />
+    <Compile Include="Interfaces\IEmployeeService.cs" />
+    <Compile Include="Interfaces\IExecutorCompanyService.cs" />
+    <Compile Include="Interfaces\IPositionService.cs" />
+    <Compile Include="Interfaces\IProjectEmployeeService.cs" />
+    <Compile Include="Interfaces\IProjectService.cs" />
+    <Compile Include="Interfaces\ISearchService.cs" />
+    <Compile Include="Interfaces\IService.cs" />
     <Compile Include="MappingProfiles\BLLMappingProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
