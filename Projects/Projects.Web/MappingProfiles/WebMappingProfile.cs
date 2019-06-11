@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
 using Projects.BLL.DTO;
 using Projects.Web.Models.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace Projects.Web.MappingProfiles
 {
