@@ -14,7 +14,7 @@ namespace Projects.DAL.Entities
         public string Email { get; set; }
         public DateTime DateBorn { get; set; }
 
-        public virtual ExecutorCompany ExecutorCompamy { get; set; }
+        public virtual ExecutorCompany ExecutorCompany { get; set; }
         public virtual Position Position { get; set; }
     }
 }

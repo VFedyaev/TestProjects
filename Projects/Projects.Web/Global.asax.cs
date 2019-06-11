@@ -1,4 +1,12 @@
-﻿using System;
+﻿using AutoMapper;
+using Ninject;
+using Ninject.Modules;
+using Ninject.Web.Mvc;
+using Projects.BLL.Infrastructure;
+using Projects.BLL.MappingProfiles;
+using Projects.Web.MappingProfiles;
+using Projects.Web.Util;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,6 +24,28 @@ namespace Projects.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            AutoMapperConfiguration.Configure();
+
+            //// внедрение зависимостей
+            NinjectModule webModule = new WebModule();
+            NinjectModule serviceModule = new ServiceModule("DefaultConnection");
+            var kernel = new StandardKernel(webModule, serviceModule);
+            DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
+        }
+
+        public class AutoMapperConfiguration
+        {
+            public static void Configure()
+            {
+                Mapper.Initialize(x =>
+                {
+                    x.AllowNullCollections = true;
+                    x.AddProfile<BLLMappingProfile>();
+                    x.AddProfile<WebMappingProfile>();
+                });
+
+                Mapper.Configuration.AssertConfigurationIsValid();
+            }
         }
     }
 }

@@ -1,0 +1,82 @@
+﻿@model IEnumerable<Projects.Web.Models.Entities.EmployeeVM>
+
+@{
+
+    ViewBag.Title = "Распределение сотрудников по проектам";
+}
+
+<div class="block">
+    <h2 class="block-title">Распределение сотрудников по проектам </h2>
+
+    <div class="form-group" id="employees">
+        <div id="search-input" class="col-md-12">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="searching">Поиск</span>
+                </div>
+                <input type="text" class="form-control" placeholder="Введите ФИО сотрудника" autofocus id="search-input-value" />
+                <div id="search-buttons" class="input-group-append">
+                    <button class="btn btn-outline-success" type="button" onclick="searchEmployees('model')">Искать</button>
+                    <button class="btn btn-outline-danger" type="button" onclick="clearSearch()">Сбросить</button>
+                </div>
+            </div>
+            <small id="information" class="form-text text-muted">Поиск сотрудников для проектов.</small>
+        </div>
+    </div>
+    @using (Html.BeginForm("UpdateEmployees", "ProjectEmployee", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" name="projectId" value="@ViewBag.ProjectId" />
+
+        <div id="found-items-area"></div>
+
+        <div id="attached-items" class="justify-content-center">
+            @if (!(Model.Count() <= 0))
+            {
+                foreach (Projects.Web.Models.Entities.EmployeeVM employee in Model)
+                {
+                    <div class="row" id="pinned-@employee.Id">
+                        <div class="col-md-8">
+                            <input type="hidden" name="employeeId[]" value="@employee.Id" />
+                            <div class="name row item-info-row">
+                                <div class="col-md-3 item-info">
+                                    <b>Сотрудник</b>
+                                </div>
+                                <div class="col-md-6 item-info">
+                                    @employee.FullName
+                                </div>
+                            </div>
+                            <div class="position row item-info-row">
+                                <div class="col-md-3 item-info">
+                                    <b>Должность</b>
+                                </div>
+                                <div class="col-md-6 item-info">
+                                    @employee.Position.Name
+                                </div>
+                            </div>
+                            <br />
+                            <div class="btn-group float-right">
+                                <button class="btn btn-danger btn-sm" type="button" onclick="detachItem('@employee.Id')">Убрать</button>
+                                <a href="@Url.Action("Details", "Employee", new { id = employee.Id })" target="_blank" class="btn btn-primary btn-sm">Подробности</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+        <div class="form-group">
+            <div class="btn-group" role="group">
+                <button type="submit" class="btn btn-success"><i class="fa fa-save" aria-hidden="true" title="Сохранить" data-toggle="tooltip" data-placement="top"></i> Сохранить</button>
+                <a href="@Url.Action("Index", "Project")" class="btn btn-info"><i class="fa fa-arrow-left" aria-hidden="true" title="Назад" data-toggle="tooltip" data-placement="top"></i> Назад</a>
+            </div>
+        </div>
+    }
+</div>
+@section scripts {
+    <script>
+        searchEmployeesByEnter();
+    </script>
+}
+

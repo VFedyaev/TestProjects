@@ -10,8 +10,6 @@ namespace Projects.BLL.DTO
         public Guid PositionId { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
-        public string Role { get; set; }
         public DateTime DateBorn { get; set; }
 
         public ExecutorCompanyDTO ExecutorCompany { get; set; }

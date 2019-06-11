@@ -1,0 +1,65 @@
+﻿@model Projects.Web.Models.Entities.ProjectVM
+
+@{
+    ViewBag.Title = "Подробная информация";
+}
+
+<div class="block">
+    <h2 clss="block-title">Подробная информация</h2>
+
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CustomerId)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Customer.CompanyName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DateStart)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DateStart)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DateEnd)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DateEnd)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Priority)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Priority)
+            </dd>    
+            
+            <dt>
+                @Html.DisplayNameFor(model => model.Comment)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Comment)
+            </dd>
+        </dl>
+    </div>
+
+    <div class="form-group">
+        <div class="btn-group" role="group">
+            <a href="@Url.Action("Edit", "Project", new { id = Model.Id})" class="btn btn-success"><i class="fa fa-pencil" aria-hidden="true" title="Редактировать" data-toggle="tooltip" data-placement="top"></i> Редактировать</a>
+            <a href="@Url.Action("Index", "Project")" class="btn btn-info"><i class="fa fa-arrow-left" aria-hidden="true" title="Назад" data-toggle="tooltip" data-placement="top"></i> Назад</a>
+        </div>
+    </div>
+
+</div>
+
