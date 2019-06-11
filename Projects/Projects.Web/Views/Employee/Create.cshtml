@@ -1,0 +1,68 @@
+﻿@model Projects.Web.Models.Entities.EmployeeVM
+
+@{
+    ViewBag.Title = "Добавление сотрудников";
+}
+
+<div class="block">
+    <h2 class="block-title">Добавление</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.FullName)
+                @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ExecutorCompanyId)
+                @Html.DropDownList("ExecutorCompanyId", null, "Исполняющие компании", htmlAttributes: new { @class = "form-control", @required = "required", @id = "executorCompanyDropDown" })
+                @Html.ValidationMessageFor(model => model.ExecutorCompanyId, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PositionId)
+                @Html.DropDownList("PositionId", null, "Должности", htmlAttributes: new { @class = "form-control", @required = "required", @id = "positionDropDown" })
+                @Html.ValidationMessageFor(model => model.PositionId, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Phone)
+                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" } })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email)
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @required = "required", @autofocus = "autofocus", @autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DateBorn)
+                @Html.EditorFor(model => model.DateBorn, new { htmlAttributes = new { @class = "form-control", @type = "date", @min = "1930-01-01", @max = "2100-01-01", @required = "required" } })
+                @Html.ValidationMessageFor(model => model.DateBorn, "", new { @class = "text-danger" })
+
+            </div>
+            <div class="form-group">
+                <div class="btn-group" role="group">
+                    <button type="submit" class="btn btn-success"><i class="fa fa-save" aria-hidden="true" title="Сохранить" data-toggle="tooltip" data-placement="top"></i> Сохранить</button>
+                    <a href="@Url.Action("Index", "Employee")" class="btn btn-info"><i class="fa fa-arrow-left" aria-hidden="true" title="Назад" data-toggle="tooltip" data-placement="top"></i> Назад</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            $("#executorCompanyDropDown").chosen({ width: "100%" });
+            $("#positionDropDown").chosen({ width: "100%" });
+        });</script>
+}

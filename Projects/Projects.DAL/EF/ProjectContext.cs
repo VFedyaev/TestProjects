@@ -12,6 +12,8 @@ namespace Projects.DAL.EF
         DbSet<Project> Projects { get; set; }
         DbSet<ProjectEmployee> ProjectEmployees { get; set; }
 
+        public ProjectContext() : base("DefaultConnection") { }
+
         public ProjectContext(string connectionString) : base(connectionString)
         {
             Database.SetInitializer<ProjectContext>(null);
