@@ -22,26 +22,53 @@ namespace Projects.Web.Controllers
             _positionService = positionService;
         }
 
-        public ActionResult AjaxPositionList(int? page)
+        public ActionResult AjaxPositionList(string sortOrder, int? page)
         {
             IEnumerable<PositionDTO> positionDTOs = _positionService
-                .GetListOrderedByName()
-                .ToList();
-            IEnumerable<PositionVM> positionVMs = Mapper.Map<IEnumerable<PositionVM>>(positionDTOs);
+              .GetListOrderedByName()
+              .ToList();
+
+            IEnumerable<PositionVM> positionVMs;
+
+            ViewBag.NameSortParam = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.CurrentSort = sortOrder;
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    positionVMs = Mapper.Map<IEnumerable<PositionVM>>(positionDTOs.OrderByDescending(n => n.Name));
+                    break;
+                default:
+                    positionVMs = Mapper.Map<IEnumerable<PositionVM>>(positionDTOs);
+                    break;
+            }
 
             return PartialView(positionVMs.ToPagedList(page ?? 1, _itemsPerPage));
         }
 
-        public ActionResult Index(int? page)
+        public ActionResult Index(string sortOrder, int? page)
         {
 
             IEnumerable<PositionDTO> positionDTOs = _positionService
-               .GetListOrderedByName()
-               .ToList();
-            IEnumerable<PositionVM> positionVMs = Mapper.Map<IEnumerable<PositionVM>>(positionDTOs);
+                .GetListOrderedByName()
+                .ToList();
+
+            IEnumerable<PositionVM> positionVMs;
+
+            ViewBag.NameSortParam = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.CurrentSort = sortOrder;
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    positionVMs = Mapper.Map<IEnumerable<PositionVM>>(positionDTOs.OrderByDescending(n => n.Name));
+                    break;
+                default:
+                    positionVMs = Mapper.Map<IEnumerable<PositionVM>>(positionDTOs);
+                    break;
+            }
 
             return View(positionVMs.ToPagedList(page ?? 1, _itemsPerPage));
         }
+
         public ActionResult Details(Guid? id)
         {
             try

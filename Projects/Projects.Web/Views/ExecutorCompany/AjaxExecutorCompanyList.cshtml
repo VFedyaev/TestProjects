@@ -5,7 +5,9 @@
 <table class="table table-responsive-sm table-responsive-md table-responsive-lg table-sm" id="listTable">
     <thead>
         <tr>
-            <th>@Html.DisplayNameFor(model => model.First().Name)</th>
+            <th>
+                @Html.ActionLink(Html.DisplayNameFor(model => model.First().Name).ToHtmlString(), "Index", new { sortOrder = ViewBag.NameSortParam })
+            </th>
             <th>@Html.DisplayNameFor(model => model.First().Address)</th>
             <th>@Html.DisplayNameFor(model => model.First().Phone)</th>
             <th>@Html.DisplayNameFor(model => model.First().Email)</th>
@@ -45,7 +47,7 @@
         }
     </tbody>
 </table>
-@Html.PagedListPager(Model, page => Url.Action("AjaxExecutorCompanyList", new { page }),
+@Html.PagedListPager(Model, page => Url.Action("AjaxExecutorCompanyList", new { sortOrder = ViewBag.CurrentSort, page }),
  PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "result" }))
     Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
 

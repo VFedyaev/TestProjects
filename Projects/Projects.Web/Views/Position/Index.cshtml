@@ -41,7 +41,9 @@
     <table class="table table-responsive-sm table-responsive-md table-responsive-lg table-sm" id="listTable">
         <thead>
             <tr>
-                <th>@Html.DisplayNameFor(model => model.First().Name)</th>
+                <th>
+                    @Html.ActionLink(Html.DisplayNameFor(model => model.First().Name).ToHtmlString(), "Index", new { sortOrder = ViewBag.NameSortParam })
+                </th>
                 <th></th>
             </tr>
         </thead>
@@ -77,7 +79,7 @@
     <div id="result"> </div>
 
     <div id="paginationToDelete">
-        @Html.PagedListPager(Model, page => Url.Action("AjaxPositionList", new { page }),
+        @Html.PagedListPager(Model, page => Url.Action("AjaxPositionList", new { sortOrder = ViewBag.CurrentSort, page }),
               PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "result", OnSuccess = "removeListAndPagination()" }))
 
         @if (!(Model.PageCount <= 0))
