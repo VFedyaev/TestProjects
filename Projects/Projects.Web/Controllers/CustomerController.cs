@@ -22,6 +22,7 @@ namespace Projects.Web.Controllers
             _customerService = customerService;
         }
 
+        [Authorize(Roles = "admin, manager")]
         public ActionResult AjaxCustomerList(string sortOrder, int? page)
         {
             IEnumerable<CustomerDTO> customerDTOs = _customerService
@@ -53,6 +54,7 @@ namespace Projects.Web.Controllers
             return PartialView(customerVMs.ToPagedList(page ?? 1, _itemsPerPage));
         }
 
+        [Authorize(Roles = "admin, manager")]
         public ActionResult Index(string sortOrder, int? page)
         {
             IEnumerable<CustomerDTO> customerDTOs = _customerService
@@ -83,6 +85,7 @@ namespace Projects.Web.Controllers
             return View(customerVMs.ToPagedList(page ?? 1, _itemsPerPage));
         }
 
+        [Authorize(Roles = "admin, manager")]
         public ActionResult Details(Guid? id)
         {
             try
@@ -102,6 +105,7 @@ namespace Projects.Web.Controllers
             }
         }
 
+        [Authorize(Roles = "admin, manager")]
         public ActionResult Create()
         {
             return View();
@@ -109,6 +113,7 @@ namespace Projects.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin, manager")]
         public ActionResult Create([Bind(Include = "FullName, CompanyName, Phone, Email, Fax")] CustomerVM customerVM)
         {
             if (ModelState.IsValid)
@@ -121,6 +126,7 @@ namespace Projects.Web.Controllers
             return View();
         }
 
+        [Authorize(Roles = "admin, manager")]
         public ActionResult Edit(Guid? id)
         {
             try
@@ -142,6 +148,7 @@ namespace Projects.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin, manager")]
         public ActionResult Edit([Bind(Include = "Id, FullName, CompanyName, Phone, Email, Fax")] CustomerVM customerVM)
         {
             if (ModelState.IsValid)
@@ -155,6 +162,7 @@ namespace Projects.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(Guid id)
         {
             try

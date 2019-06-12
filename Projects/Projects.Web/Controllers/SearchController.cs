@@ -17,6 +17,7 @@ namespace Projects.Web.Controllers
             _searchService = searchService;
         }
 
+        [Authorize(Roles = "admin, manager, user")]
         public ActionResult SearchMethod(string title, string type)
         {
             ModelAndViewDTO result = _searchService.GetFilteredModelAndView(title, type);

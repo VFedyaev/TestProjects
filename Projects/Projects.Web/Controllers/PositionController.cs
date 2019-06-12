@@ -22,6 +22,7 @@ namespace Projects.Web.Controllers
             _positionService = positionService;
         }
 
+        [Authorize(Roles = "admin, manager")]
         public ActionResult AjaxPositionList(string sortOrder, int? page)
         {
             IEnumerable<PositionDTO> positionDTOs = _positionService
@@ -45,6 +46,7 @@ namespace Projects.Web.Controllers
             return PartialView(positionVMs.ToPagedList(page ?? 1, _itemsPerPage));
         }
 
+        [Authorize(Roles = "admin, manager")]
         public ActionResult Index(string sortOrder, int? page)
         {
 
@@ -69,6 +71,7 @@ namespace Projects.Web.Controllers
             return View(positionVMs.ToPagedList(page ?? 1, _itemsPerPage));
         }
 
+        [Authorize(Roles = "admin, manager")]
         public ActionResult Details(Guid? id)
         {
             try
@@ -88,6 +91,7 @@ namespace Projects.Web.Controllers
             }
         }
 
+        [Authorize(Roles = "admin, manager")]
         public ActionResult Create()
         {
             return View();
@@ -96,6 +100,7 @@ namespace Projects.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
+        [Authorize(Roles = "admin, manager")]
         public ActionResult Create([Bind(Include = "Name")] PositionVM positionVM)
         {
             if (ModelState.IsValid)
@@ -107,6 +112,7 @@ namespace Projects.Web.Controllers
             return View();
         }
 
+        [Authorize(Roles = "admin, manager")]
         public ActionResult Edit(Guid? id)
         {
             try
@@ -128,6 +134,7 @@ namespace Projects.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
+        [Authorize(Roles = "admin, manager")]
         public ActionResult Edit([Bind(Include = "Id,Name")] PositionVM positionVM)
         {
             if (ModelState.IsValid)
@@ -140,6 +147,7 @@ namespace Projects.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(Guid id)
         {
             try

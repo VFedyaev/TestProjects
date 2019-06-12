@@ -16,6 +16,8 @@ namespace Projects.Web.Util
             Bind<IProjectEmployeeService>().To<ProjectEmployeeService>();
 
             Bind<ISearchService>().To<SearchService>();
+            Bind<IAccountService>().To<AccountService>();
+            Bind<IUserService>().To<UserService>();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Projects.BLL.DTO;
+using Projects.Web.Models.Account;
 using Projects.Web.Models.Entities;
 
 namespace Projects.Web.MappingProfiles
@@ -13,6 +14,8 @@ namespace Projects.Web.MappingProfiles
             CreateMap<EmployeeDTO, EmployeeVM>(MemberList.None).ReverseMap();
             CreateMap<CustomerDTO, CustomerVM>(MemberList.None).ReverseMap();
             CreateMap<ProjectDTO, ProjectVM>(MemberList.None).ReverseMap();
+
+            CreateMap<UserDTO, UserVM>(MemberList.None).ReverseMap();
         }
     }
 }

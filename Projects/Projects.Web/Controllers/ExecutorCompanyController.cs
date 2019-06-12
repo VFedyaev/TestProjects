@@ -22,6 +22,7 @@ namespace Projects.Web.Controllers
             _executorCompanyService = executorCompanyService;
         }
 
+        [Authorize(Roles = "admin, manager")]
         public ActionResult AjaxExecutorCompanyList(string sortOrder, int? page)
         {
             IEnumerable<ExecutorCompanyDTO> executorCompanyDTOs = _executorCompanyService
@@ -46,6 +47,7 @@ namespace Projects.Web.Controllers
         }
 
         // GET: ExecutorCompany
+        [Authorize(Roles = "admin, manager")]
         public ActionResult Index(string sortOrder, int? page)
         {
             IEnumerable<ExecutorCompanyDTO> executorCompanyDTOs = _executorCompanyService
@@ -66,10 +68,10 @@ namespace Projects.Web.Controllers
                     break;
             }
             
-
             return View(executorCompanyVMs.ToPagedList(page ?? 1, _itemsPerPage));
         }
 
+        [Authorize(Roles = "admin, manager")]
         public ActionResult Details(Guid? id)
         {
             try
@@ -89,6 +91,7 @@ namespace Projects.Web.Controllers
             }
         }
 
+        [Authorize(Roles = "admin, manager")]
         public ActionResult Create()
         {
             return View();
@@ -97,6 +100,7 @@ namespace Projects.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
+        [Authorize(Roles = "admin, manager")]
         public ActionResult Create([Bind(Include = "Name, Address, Phone, Email, Fax")] ExecutorCompanyVM executorCompanyVM)
         {
             if (ModelState.IsValid)
@@ -108,6 +112,7 @@ namespace Projects.Web.Controllers
             return View();
         }
 
+        [Authorize(Roles = "admin, manager")]
         public ActionResult Edit(Guid? id)
         {
             try
@@ -129,6 +134,7 @@ namespace Projects.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
+        [Authorize(Roles = "admin, manager")]
         public ActionResult Edit([Bind(Include = "Id, Name, Address, Phone, Email, Fax")] ExecutorCompanyVM executorCompanyVM)
         {
             if (ModelState.IsValid)
@@ -141,6 +147,7 @@ namespace Projects.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(Guid id)
         {
             try

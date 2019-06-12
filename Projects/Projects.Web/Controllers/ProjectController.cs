@@ -24,6 +24,7 @@ namespace Projects.Web.Controllers
             _customerService = customerService;
         }
 
+        [Authorize(Roles = "admin, manager, user")]
         public ActionResult AjaxProjectList(string sortOrder, int? page)
         {
             IEnumerable<ProjectDTO> projectDTOs = _projectService
@@ -69,6 +70,7 @@ namespace Projects.Web.Controllers
         }
 
         // GET: Project
+        [Authorize(Roles = "admin, manager, user")]
         public ActionResult Index(string sortOrder, int? page)
         {
             IEnumerable<ProjectDTO> projectDTOs = _projectService
@@ -113,6 +115,7 @@ namespace Projects.Web.Controllers
             return View(projectVMs.ToPagedList(page ?? 1, _itemsPerPage));
         }
 
+        [Authorize(Roles = "admin, manager, user")]
         public ActionResult Details(Guid? id)
         {
             try
@@ -132,6 +135,7 @@ namespace Projects.Web.Controllers
             }
         }
 
+        [Authorize(Roles = "admin, manager, user")]
         public ActionResult Create()
         {
             ViewBag.CustomerId = GetCustomerIdSelectList();
@@ -140,6 +144,7 @@ namespace Projects.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin, manager, user")]
         public ActionResult Create([Bind(Include = "Name, CustomerId, DateStart, DateEnd, Priority, Comment")] ProjectVM projectVM)
         {
             if (ModelState.IsValid)
@@ -155,6 +160,7 @@ namespace Projects.Web.Controllers
             return View(projectVM);
         }
 
+        [Authorize(Roles = "admin, manager, user")]
         public ActionResult Edit(Guid? id)
         {
             try
@@ -178,6 +184,7 @@ namespace Projects.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin, manager, user")]
         public ActionResult Edit([Bind(Include = "Id, Name, CustomerId, DateStart, DateEnd, Priority, Comment")] ProjectVM projectVM)
         {
             if (ModelState.IsValid)
@@ -196,11 +203,13 @@ namespace Projects.Web.Controllers
             return View(projectVM);
         }
 
+        [Authorize(Roles = "admin, manager, user")]
         public SelectList GetCustomerIdSelectList(Guid? selectedValue = null)
         {
             return new SelectList(_customerService.GetAll().ToList(), "Id", "CompanyName", selectedValue);
         }
 
+        [Authorize(Roles = "admin, manager, user")]
         public ActionResult Employees(Guid? projectId)
         {
             try
@@ -219,6 +228,7 @@ namespace Projects.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(Guid id)
         {
             try
