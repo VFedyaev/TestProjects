@@ -22,22 +22,63 @@ namespace Projects.Web.Controllers
             _customerService = customerService;
         }
 
-        public ActionResult AjaxCustomerList(int? page)
+        public ActionResult AjaxCustomerList(string sortOrder, int? page)
         {
             IEnumerable<CustomerDTO> customerDTOs = _customerService
               .GetListOrderedByName()
               .ToList();
-            IEnumerable<CustomerVM> customerVMs = Mapper.Map<IEnumerable<CustomerVM>>(customerDTOs);
+
+            IEnumerable<CustomerVM> customerVMs;
+
+            ViewBag.NameSortParam = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.CompanySortParam = sortOrder == "Company" ? "company_desc" : "Company";
+            ViewBag.CurrentSort = sortOrder;
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    customerVMs = Mapper.Map<IEnumerable<CustomerVM>>(customerDTOs.OrderByDescending(n => n.FullName));
+                    break;
+                case "Company":
+                    customerVMs = Mapper.Map<IEnumerable<CustomerVM>>(customerDTOs.OrderBy(n => n.CompanyName));
+                    break;
+                case "company_desc":
+                    customerVMs = Mapper.Map<IEnumerable<CustomerVM>>(customerDTOs.OrderByDescending(n => n.CompanyName));
+                    break;
+                default:
+                    customerVMs = Mapper.Map<IEnumerable<CustomerVM>>(customerDTOs);
+                    break;
+            }
+           
 
             return PartialView(customerVMs.ToPagedList(page ?? 1, _itemsPerPage));
         }
 
-        public ActionResult Index(int? page)
+        public ActionResult Index(string sortOrder, int? page)
         {
             IEnumerable<CustomerDTO> customerDTOs = _customerService
                 .GetListOrderedByName()
                 .ToList();
-            IEnumerable<CustomerVM> customerVMs = Mapper.Map<IEnumerable<CustomerVM>>(customerDTOs);
+
+            IEnumerable<CustomerVM> customerVMs;
+
+            ViewBag.NameSortParam = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.CompanySortParam = sortOrder == "Company" ? "company_desc" : "Company";
+            ViewBag.CurrentSort = sortOrder;
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    customerVMs = Mapper.Map<IEnumerable<CustomerVM>>(customerDTOs.OrderByDescending(n => n.FullName));
+                    break;
+                case "Company":
+                    customerVMs = Mapper.Map<IEnumerable<CustomerVM>>(customerDTOs.OrderBy(n => n.CompanyName));
+                    break;
+                case "company_desc":
+                    customerVMs = Mapper.Map<IEnumerable<CustomerVM>>(customerDTOs.OrderByDescending(n => n.CompanyName));
+                    break;
+                default:
+                    customerVMs = Mapper.Map<IEnumerable<CustomerVM>>(customerDTOs);
+                    break;
+            }
 
             return View(customerVMs.ToPagedList(page ?? 1, _itemsPerPage));
         }

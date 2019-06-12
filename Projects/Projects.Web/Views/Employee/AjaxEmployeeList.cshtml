@@ -5,9 +5,15 @@
 <table class="table table-responsive-sm table-responsive-md table-responsive-lg table-sm" id="listTable">
     <thead>
         <tr>
-            <th>@Html.DisplayNameFor(model => model.First().FullName)</th>
-            <th>@Html.DisplayNameFor(model => model.First().ExecutorCompany)</th>
-            <th>@Html.DisplayNameFor(model => model.First().Position)</th>
+            <th>
+                @Html.ActionLink(Html.DisplayNameFor(model => model.First().FullName).ToHtmlString(), "Index", new { sortOrder = ViewBag.NameSortParam })
+            </th>
+            <th>
+                @Html.ActionLink(Html.DisplayNameFor(model => model.First().ExecutorCompany).ToHtmlString(), "Index", new { sortOrder = ViewBag.ExecutorCompanySortParam })
+            </th>
+            <th>
+                @Html.ActionLink(Html.DisplayNameFor(model => model.First().Position).ToHtmlString(), "Index", new { sortOrder = ViewBag.PositionSortParam })
+            </th>
             <th>@Html.DisplayNameFor(model => model.First().Phone)</th>
             <th>@Html.DisplayNameFor(model => model.First().Email)</th>
             <th>@Html.DisplayNameFor(model => model.First().DateBorn)</th>
@@ -48,7 +54,7 @@
     </tbody>
 </table>
 
-@Html.PagedListPager(Model, page => Url.Action("AjaxEmployeeList", new { page }),
+@Html.PagedListPager(Model, page => Url.Action("AjaxEmployeeList", new { sortOrder = ViewBag.CurrentSort, page }),
  PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "result" }))
     Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
 

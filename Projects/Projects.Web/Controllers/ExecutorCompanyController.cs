@@ -22,23 +22,50 @@ namespace Projects.Web.Controllers
             _executorCompanyService = executorCompanyService;
         }
 
-        public ActionResult AjaxExecutorCompanyList(int? page)
+        public ActionResult AjaxExecutorCompanyList(string sortOrder, int? page)
         {
             IEnumerable<ExecutorCompanyDTO> executorCompanyDTOs = _executorCompanyService
                 .GetListOrderedByName()
                 .ToList();
-            IEnumerable<ExecutorCompanyVM> executorCompanyVMs = Mapper.Map<IEnumerable<ExecutorCompanyVM>>(executorCompanyDTOs);
+
+            IEnumerable<ExecutorCompanyVM> executorCompanyVMs;
+
+            ViewBag.NameSortParam = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.CurrentSort = sortOrder;
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    executorCompanyVMs = Mapper.Map<IEnumerable<ExecutorCompanyVM>>(executorCompanyDTOs.OrderByDescending(n => n.Name));
+                    break;
+                default:
+                    executorCompanyVMs = Mapper.Map<IEnumerable<ExecutorCompanyVM>>(executorCompanyDTOs);
+                    break;
+            }
 
             return PartialView(executorCompanyVMs.ToPagedList(page ?? 1, _itemsPerPage));
         }
 
         // GET: ExecutorCompany
-        public ActionResult Index(int? page)
+        public ActionResult Index(string sortOrder, int? page)
         {
             IEnumerable<ExecutorCompanyDTO> executorCompanyDTOs = _executorCompanyService
               .GetListOrderedByName()
               .ToList();
-            IEnumerable<ExecutorCompanyVM> executorCompanyVMs = Mapper.Map<IEnumerable<ExecutorCompanyVM>>(executorCompanyDTOs);
+
+            IEnumerable<ExecutorCompanyVM> executorCompanyVMs;
+
+            ViewBag.NameSortParam = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.CurrentSort = sortOrder;
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    executorCompanyVMs = Mapper.Map<IEnumerable<ExecutorCompanyVM>>(executorCompanyDTOs.OrderByDescending(n => n.Name));
+                    break;
+                default:
+                    executorCompanyVMs = Mapper.Map<IEnumerable<ExecutorCompanyVM>>(executorCompanyDTOs);
+                    break;
+            }
+            
 
             return View(executorCompanyVMs.ToPagedList(page ?? 1, _itemsPerPage));
         }

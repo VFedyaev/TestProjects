@@ -41,9 +41,15 @@
         <table class="table table-responsive-sm table-responsive-md table-responsive-lg table-sm" id="listTable">
             <thead>
                 <tr>
-                    <th>@Html.DisplayNameFor(model => model.First().FullName)</th>
-                    <th>@Html.DisplayNameFor(model => model.First().ExecutorCompanyId)</th>
-                    <th>@Html.DisplayNameFor(model => model.First().PositionId)</th>
+                    <th>
+                        @Html.ActionLink(Html.DisplayNameFor(model => model.First().FullName).ToHtmlString(), "Index", new { sortOrder = ViewBag.NameSortParam })
+                    </th>
+                    <th>
+                        @Html.ActionLink(Html.DisplayNameFor(model => model.First().ExecutorCompanyId).ToHtmlString(), "Index", new { sortOrder = ViewBag.ExecutorCompanySortParam })
+                    </th>
+                    <th>
+                        @Html.ActionLink(Html.DisplayNameFor(model => model.First().PositionId).ToHtmlString(), "Index", new { sortOrder = ViewBag.PositionSortParam })
+                    </th>
                     <th>@Html.DisplayNameFor(model => model.First().Phone)</th>
                     <th>@Html.DisplayNameFor(model => model.First().Email)</th>
                     <th>@Html.DisplayNameFor(model => model.First().DateBorn)</th>
@@ -87,7 +93,7 @@
         <div id="result"> </div>
 
         <div id="paginationToDelete">
-            @Html.PagedListPager(Model, page => Url.Action("AjaxEmployeeList", new { page }),
+            @Html.PagedListPager(Model, page => Url.Action("AjaxEmployeeList", new { sortOrder = ViewBag.CurrentSort, page }),
                   PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "result", OnSuccess = "removeListAndPagination()" }))
 
             @if (!(Model.PageCount <= 0))

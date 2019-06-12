@@ -24,23 +24,91 @@ namespace Projects.Web.Controllers
             _customerService = customerService;
         }
 
-        public ActionResult AjaxProjectList(int? page)
+        public ActionResult AjaxProjectList(string sortOrder, int? page)
         {
             IEnumerable<ProjectDTO> projectDTOs = _projectService
                 .GetListOrderedByName()
                 .ToList();
-            IEnumerable<ProjectVM> projectVMs = Mapper.Map<IEnumerable<ProjectVM>>(projectDTOs);
+
+            IEnumerable<ProjectVM> projectVMs;
+
+            ViewBag.NameSortParam = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.CompanySortParam = sortOrder == "Company" ? "company_desc" : "Company";
+            ViewBag.DateSortParam = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewBag.PrioritySortParam = sortOrder == "Priority" ? "priority_desc" : "Priority";
+            ViewBag.CurrentSort = sortOrder;
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    projectVMs = Mapper.Map<IEnumerable<ProjectVM>>(projectDTOs.OrderByDescending(n => n.Name));
+                    break;
+                case "Company":
+                    projectVMs = Mapper.Map<IEnumerable<ProjectVM>>(projectDTOs.OrderBy(n => n.Customer.CompanyName));
+                    break;
+                case "company_desc":
+                    projectVMs = Mapper.Map<IEnumerable<ProjectVM>>(projectDTOs.OrderByDescending(n => n.Customer.CompanyName));
+                    break;
+                case "Date":
+                    projectVMs = Mapper.Map<IEnumerable<ProjectVM>>(projectDTOs.OrderBy(n => n.DateStart));
+                    break;
+                case "date_desc":
+                    projectVMs = Mapper.Map<IEnumerable<ProjectVM>>(projectDTOs.OrderByDescending(n => n.DateStart));
+                    break;
+                case "Priority":
+                    projectVMs = Mapper.Map<IEnumerable<ProjectVM>>(projectDTOs.OrderBy(n => n.Priority));
+                    break;
+                case "priority_desc":
+                    projectVMs = Mapper.Map<IEnumerable<ProjectVM>>(projectDTOs.OrderByDescending(n => n.Priority));
+                    break;
+                default:
+                    projectVMs = Mapper.Map<IEnumerable<ProjectVM>>(projectDTOs);
+                    break;
+            }
 
             return PartialView(projectVMs.ToPagedList(page ?? 1, _itemsPerPage));
         }
 
         // GET: Project
-        public ActionResult Index(int? page)
+        public ActionResult Index(string sortOrder, int? page)
         {
             IEnumerable<ProjectDTO> projectDTOs = _projectService
                 .GetListOrderedByName()
                 .ToList();
-            IEnumerable<ProjectVM> projectVMs = Mapper.Map<IEnumerable<ProjectVM>>(projectDTOs);
+
+            IEnumerable<ProjectVM> projectVMs;
+
+            ViewBag.NameSortParam = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.CompanySortParam = sortOrder == "Company" ? "company_desc" : "Company";
+            ViewBag.DateSortParam = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewBag.PrioritySortParam = sortOrder == "Priority" ? "priority_desc" : "Priority";
+            ViewBag.CurrentSort = sortOrder;
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    projectVMs = Mapper.Map<IEnumerable<ProjectVM>>(projectDTOs.OrderByDescending(n => n.Name));
+                    break;
+                case "Company":
+                    projectVMs = Mapper.Map<IEnumerable<ProjectVM>>(projectDTOs.OrderBy(n => n.Customer.CompanyName));
+                    break;
+                case "company_desc":
+                    projectVMs = Mapper.Map<IEnumerable<ProjectVM>>(projectDTOs.OrderByDescending(n => n.Customer.CompanyName));
+                    break;
+                case "Date":
+                    projectVMs = Mapper.Map<IEnumerable<ProjectVM>>(projectDTOs.OrderBy(n => n.DateStart));
+                    break;
+                case "date_desc":
+                    projectVMs = Mapper.Map<IEnumerable<ProjectVM>>(projectDTOs.OrderByDescending(n => n.DateStart));
+                    break;
+                case "Priority":
+                    projectVMs = Mapper.Map<IEnumerable<ProjectVM>>(projectDTOs.OrderBy(n => n.Priority));
+                    break;
+                case "priority_desc":
+                    projectVMs = Mapper.Map<IEnumerable<ProjectVM>>(projectDTOs.OrderByDescending(n => n.Priority));
+                    break;
+                default:
+                    projectVMs = Mapper.Map<IEnumerable<ProjectVM>>(projectDTOs);
+                    break;
+            }
 
             return View(projectVMs.ToPagedList(page ?? 1, _itemsPerPage));
         }

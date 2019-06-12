@@ -26,22 +26,76 @@ namespace Projects.Web.Controllers
             _positionService = positionService;
         }
 
-        public ActionResult AjaxEmployeeList(int? page)
+        public ActionResult AjaxEmployeeList(string sortOrder, int? page)
         {
             IEnumerable<EmployeeDTO> employeeDTOs = _employeeService
                 .GetListOrderedByName()
                 .ToList();
-            IEnumerable<EmployeeVM> employeeVMs = Mapper.Map<IEnumerable<EmployeeVM>>(employeeDTOs);
 
+            IEnumerable<EmployeeVM> employeeVMs;
+
+            ViewBag.NameSortParam = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.ExecutorCompanySortParam = sortOrder == "ExecutorCompany" ? "executorCompany_desc" : "ExecutorCompany";
+            ViewBag.PositionSortParam = sortOrder == "Position" ? "position_desc" : "Position";
+            ViewBag.CurrentSort = sortOrder;
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    employeeVMs = Mapper.Map<IEnumerable<EmployeeVM>>(employeeDTOs.OrderByDescending(n => n.FullName));
+                    break;
+                case "ExecutorCompany":
+                    employeeVMs = Mapper.Map<IEnumerable<EmployeeVM>>(employeeDTOs.OrderBy(n => n.ExecutorCompany.Name));
+                    break;
+                case "executorCompany_desc":
+                    employeeVMs = Mapper.Map<IEnumerable<EmployeeVM>>(employeeDTOs.OrderByDescending(n => n.ExecutorCompany.Name));
+                    break;
+                case "Position":
+                    employeeVMs = Mapper.Map<IEnumerable<EmployeeVM>>(employeeDTOs.OrderBy(n => n.Position.Name));
+                    break;
+                case "position_desc":
+                    employeeVMs = Mapper.Map<IEnumerable<EmployeeVM>>(employeeDTOs.OrderByDescending(n => n.Position.Name));
+                    break;
+                default:
+                    employeeVMs = Mapper.Map<IEnumerable<EmployeeVM>>(employeeDTOs);
+                    break;
+            }
+            
             return PartialView(employeeVMs.ToPagedList(page ?? 1, _itemsPerPage));
         }
         // GET: Employee
-        public ActionResult Index(int? page)
+        public ActionResult Index(string sortOrder, int? page)
         {
             IEnumerable<EmployeeDTO> employeeDTOs = _employeeService
                 .GetListOrderedByName()
                 .ToList();
-            IEnumerable<EmployeeVM> employeeVMs = Mapper.Map<IEnumerable<EmployeeVM>>(employeeDTOs);
+
+            IEnumerable<EmployeeVM> employeeVMs;
+
+            ViewBag.NameSortParam = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.ExecutorCompanySortParam = sortOrder == "ExecutorCompany" ? "executorCompany_desc" : "ExecutorCompany";
+            ViewBag.PositionSortParam = sortOrder == "Position" ? "position_desc" : "Position";
+            ViewBag.CurrentSort = sortOrder;
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    employeeVMs = Mapper.Map<IEnumerable<EmployeeVM>>(employeeDTOs.OrderByDescending(n => n.FullName));
+                    break;
+                case "ExecutorCompany":
+                    employeeVMs = Mapper.Map<IEnumerable<EmployeeVM>>(employeeDTOs.OrderBy(n => n.ExecutorCompany.Name));
+                    break;
+                case "executorCompany_desc":
+                    employeeVMs = Mapper.Map<IEnumerable<EmployeeVM>>(employeeDTOs.OrderByDescending(n => n.ExecutorCompany.Name));
+                    break;
+                case "Position":
+                    employeeVMs = Mapper.Map<IEnumerable<EmployeeVM>>(employeeDTOs.OrderBy(n => n.Position.Name));
+                    break;
+                case "position_desc":
+                    employeeVMs = Mapper.Map<IEnumerable<EmployeeVM>>(employeeDTOs.OrderByDescending(n => n.Position.Name));
+                    break;
+                default:
+                    employeeVMs = Mapper.Map<IEnumerable<EmployeeVM>>(employeeDTOs);
+                    break;
+            }
 
             return View(employeeVMs.ToPagedList(page ?? 1, _itemsPerPage));
         }
