@@ -1,6 +1,7 @@
 ﻿using Projects.DAL.Entities;
 using Projects.DAL.Identity;
 using System;
+using System.Threading.Tasks;
 
 namespace Projects.DAL.Interfaces
 {
@@ -17,5 +18,6 @@ namespace Projects.DAL.Interfaces
         IRepository<ProjectEmployee> ProjectEmployees { get; }
 
         void Save();
+        Task SaveAsync();
     }
 }

@@ -14,6 +14,9 @@ namespace Projects.BLL.MappingProfiles
             CreateMap<Customer, CustomerDTO>(MemberList.None).ReverseMap();
             CreateMap<Project, ProjectDTO>(MemberList.None).ReverseMap();
             CreateMap<ProjectEmployee, ProjectEmployeeDTO>(MemberList.None).ReverseMap();
+
+            CreateMap<ApplicationRole, RoleDTO>(MemberList.None).ReverseMap();
+            CreateMap<ApplicationUser, UserDTO>(MemberList.None).ReverseMap();
         }
     }
 }

@@ -5,6 +5,7 @@ using Projects.DAL.Entities;
 using Projects.DAL.Identity;
 using Projects.DAL.Interfaces;
 using System;
+using System.Threading.Tasks;
 
 namespace Projects.DAL.Repositories
 {
@@ -105,6 +106,11 @@ namespace Projects.DAL.Repositories
         public void Save()
         {
             _projectContext.SaveChanges();
+        }
+
+        public async Task SaveAsync()
+        {
+            await _projectContext.SaveChangesAsync();
         }
 
         private bool disposed = false;
