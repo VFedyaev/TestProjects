@@ -1,9 +1,10 @@
-﻿using Projects.DAL.Entities;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using Projects.DAL.Entities;
 using System.Data.Entity;
 
 namespace Projects.DAL.EF
 {
-    public class ProjectContext : DbContext
+    public class ProjectContext : IdentityDbContext<ApplicationUser>
     {
         DbSet<ExecutorCompany> ExecutorCompanies { get; set; }
         DbSet<Position> Positions { get; set; }
