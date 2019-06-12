@@ -26,7 +26,6 @@ namespace Projects.Web
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AutoMapperConfiguration.Configure();
 
-            //// внедрение зависимостей
             NinjectModule webModule = new WebModule();
             NinjectModule serviceModule = new ServiceModule("DefaultConnection");
             var kernel = new StandardKernel(webModule, serviceModule);

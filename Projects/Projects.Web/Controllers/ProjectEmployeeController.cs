@@ -16,6 +16,7 @@ namespace Projects.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin, manager, user")]
         public ActionResult UpdateEmployees(Guid? projectId)
         {
             string[] employeeIds = Request.Form.GetValues("employeeId[]") ?? new string[0];

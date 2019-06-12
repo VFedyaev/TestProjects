@@ -19,57 +19,88 @@
         <nav id="sidebar">
             <div class="sidebar-header">
                 <h1 class="text-center"><a href="@Url.Action("Index", "Home")"><img src="~/Content/img/title-text.PNG"></a></h1>
-                @*<img src="~/Content/img/title-text.PNG">*@
             </div>
+
             <ul class="list-unstyled components">
                 <!-- <p>Навигация</p> -->
                 <li id="main-page-menu-item" class="active">
                     <a href="@Url.Action("Index", "Home")"><i class="fa fa-home" aria-hidden="true"></i> Главная</a>
                 </li>
-                @*@if (User.IsInRole("admin"))
-                    {*@
-                <li id="user-page-menu-item">
-                    <a href="@Url.Action("Index", "User")"><i class="fa fa-users" aria-hidden="true"></i> Пользователи</a>
-                </li>
-                <li id="mix-page-menu-item">
-                    <!-- class="active" -->
-                    <a href="#mixDropdown" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle"><i class="fa fa-comment" aria-hidden="true"></i> Исполняющие компании/Должности/Сотрудники/Заказчики</a>
-                    <ul class="list-unstyled show" id="mixDropdown">
-                        <li>
-                            <a href="@Url.Action("Index", "ExecutorCompany")"><i class="fa fa-building" aria-hidden="true"></i> Исполняющие компании</a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index", "Position")"><i class="fa fa-street-view" aria-hidden="true"></i> Должности</a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index", "Employee")"><i class="fa fa-grav" aria-hidden="true"></i> Сотрудники</a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index", "Customer")"><i class="fa fa-user-o"></i> Заказчики</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="@Url.Action("Index", "Project")"><i class="fa fa-globe" aria-hidden="true"></i> Проекты</a>
-                </li>
+                @if (User.IsInRole("admin"))
+                {
+                    <li id="user-page-menu-item">
+                        <a href="@Url.Action("Index", "User")"><i class="fa fa-users" aria-hidden="true"></i> Пользователи</a>
+                    </li>
+                    <li id="mix-page-menu-item">
+                        <!-- class="active" -->
+                        <a href="#mixDropdown" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle"><i class="fa fa-comment" aria-hidden="true"></i> Исполняющие компании/Должности/Сотрудники/Заказчики</a>
+                        <ul class="list-unstyled show" id="mixDropdown">
+                            <li>
+                                <a href="@Url.Action("Index", "ExecutorCompany")"><i class="fa fa-building" aria-hidden="true"></i> Исполняющие компании</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Position")"><i class="fa fa-street-view" aria-hidden="true"></i> Должности</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Employee")"><i class="fa fa-grav" aria-hidden="true"></i> Сотрудники</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Customer")"><i class="fa fa-user-o"></i> Заказчики</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "Project")"><i class="fa fa-globe" aria-hidden="true"></i> Проекты</a>
+                    </li>
+                }
+                else if (User.IsInRole("manager"))
+                {
+                    <li id="mix-page-menu-item">
+                        <!-- class="active" -->
+                        <a href="#mixDropdown" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle"><i class="fa fa-comment" aria-hidden="true"></i> Исполняющие компании/Должности/Сотрудники/Заказчики</a>
+                        <ul class="list-unstyled show" id="mixDropdown">
+                            <li>
+                                <a href="@Url.Action("Index", "ExecutorCompany")"><i class="fa fa-building" aria-hidden="true"></i> Исполняющие компании</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Position")"><i class="fa fa-street-view" aria-hidden="true"></i> Должности</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Employee")"><i class="fa fa-grav" aria-hidden="true"></i> Сотрудники</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Customer")"><i class="fa fa-user-o"></i> Заказчики</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "Project")"><i class="fa fa-globe" aria-hidden="true"></i> Проекты</a>
+                    </li>
+                }
+                else if (User.IsInRole("user"))
+                {
+                    <li>
+                        <a href="@Url.Action("Index", "Project")"><i class="fa fa-globe" aria-hidden="true"></i> Проекты</a>
+                    </li>
+                }
             </ul>
             <ul class="list-unstyled account">
                 @if (!User.Identity.IsAuthenticated)
                 {
                     <li id="login-page-menu-item">
-                        <a href="@Url.Action("Login", "Account")"><i class="fa fa-sign-in icon-muted" aria-hidden="true"></i> Войти</a>
+                        <a href="@Url.Action("Login", "Account")"><i class="fa fa-sign-in" aria-hidden="true"></i> Войти</a>
                     </li>
                 }
                 else
                 {
                     <li id="change-email-page-menu-item">
-                        <a href="@Url.Action("ChangeEmail", "Account")"><i class="fa fa-at icon-muted" aria-hidden="true"></i> Сменить почту</a>
+                        <a href="@Url.Action("ChangeEmail", "Account")"><i class="fa fa-at" aria-hidden="true"></i> Сменить почту</a>
                     </li>
                     <li id="change-password-page-menu-item">
-                        <a href="@Url.Action("ChangePassword", "Account")"><i class="fa fa-unlock-alt icon-muted" aria-hidden="true"></i> Сменить пароль</a>
+                        <a href="@Url.Action("ChangePassword", "Account")"><i class="fa fa-unlock-alt" aria-hidden="true"></i> Сменить пароль</a>
                     </li>
                     <li>
-                        <a href="@Url.Action("Logout", "Account")"><i class="fa fa-sign-out icon-muted" aria-hidden="true"></i> Выйти</a>
+                        <a href="@Url.Action("Logout", "Account")"><i class="fa fa-sign-out" aria-hidden="true"></i> Выйти</a>
                     </li>
                 }
             </ul>
@@ -119,6 +150,7 @@
         </div>
     </div>
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.js")
     <script src="~/Scripts/jquery.mCustomScrollbar.concat.min.js"></script>

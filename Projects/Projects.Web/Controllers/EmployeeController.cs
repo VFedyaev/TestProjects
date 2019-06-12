@@ -26,6 +26,7 @@ namespace Projects.Web.Controllers
             _positionService = positionService;
         }
 
+        [Authorize(Roles = "admin, manager")]
         public ActionResult AjaxEmployeeList(string sortOrder, int? page)
         {
             IEnumerable<EmployeeDTO> employeeDTOs = _employeeService
@@ -62,7 +63,9 @@ namespace Projects.Web.Controllers
             
             return PartialView(employeeVMs.ToPagedList(page ?? 1, _itemsPerPage));
         }
+
         // GET: Employee
+        [Authorize(Roles = "admin, manager")]
         public ActionResult Index(string sortOrder, int? page)
         {
             IEnumerable<EmployeeDTO> employeeDTOs = _employeeService
@@ -100,6 +103,7 @@ namespace Projects.Web.Controllers
             return View(employeeVMs.ToPagedList(page ?? 1, _itemsPerPage));
         }
 
+        [Authorize(Roles = "admin, manager")]
         public ActionResult Details(Guid? id)
         {
             try
@@ -119,6 +123,7 @@ namespace Projects.Web.Controllers
             }
         }
 
+        [Authorize(Roles = "admin, manager")]
         public ActionResult Create()
         {
             ViewBag.ExecutorCompanyId = GetExecutorCompanyIdSelectList();
@@ -129,6 +134,7 @@ namespace Projects.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin, manager")]
         public ActionResult Create([Bind(Include = "FullName, ExecutorCompanyId, PositionId, Phone, Email, DateBorn")] EmployeeVM employeeVM)
         {
             try
@@ -153,6 +159,7 @@ namespace Projects.Web.Controllers
             }
         }
 
+        [Authorize(Roles = "admin, manager")]
         public ActionResult Edit(Guid? id)
         {
             try
@@ -178,6 +185,7 @@ namespace Projects.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
+        [Authorize(Roles = "admin, manager")]
         public ActionResult Edit([Bind(Include = "Id, FullName, ExecutorCompanyId, PositionId, Phone, Email, DateBorn")] EmployeeVM employeeVM)
         {
             if (ModelState.IsValid)
@@ -194,11 +202,13 @@ namespace Projects.Web.Controllers
             return View(employeeVM);
         }
 
+        [Authorize(Roles = "admin, manager")]
         public SelectList GetExecutorCompanyIdSelectList(Guid? selectedValue = null)
         {
             return new SelectList(_executorCompanyService.GetAll().ToList(), "Id", "Name", selectedValue);
         }
 
+        [Authorize(Roles = "admin, manager")]
         public SelectList GetPositionIdSelectList(Guid? selectedValue = null)
         {
             return new SelectList(_positionService.GetAll().ToList(), "Id", "Name", selectedValue);
@@ -206,6 +216,7 @@ namespace Projects.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(Guid id)
         {
             try

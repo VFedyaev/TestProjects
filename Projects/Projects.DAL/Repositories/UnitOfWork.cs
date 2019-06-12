@@ -1,7 +1,11 @@
-﻿using Projects.DAL.EF;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Projects.DAL.EF;
 using Projects.DAL.Entities;
+using Projects.DAL.Identity;
 using Projects.DAL.Interfaces;
 using System;
+using System.Threading.Tasks;
 
 namespace Projects.DAL.Repositories
 {
@@ -16,11 +20,29 @@ namespace Projects.DAL.Repositories
         private Repository<Project> _projectRepository;
         private Repository<ProjectEmployee> _projectEmployeeRepository;
 
+        PasswordValidator passwordValidator = new PasswordValidator
+        {
+            RequiredLength = 8,
+            RequireNonLetterOrDigit = true,
+            RequireDigit = true,
+            RequireLowercase = true
+        };
+
+        public ApplicationUserManager UserManager { get; }
+        public ApplicationRoleManager RoleManager { get; }
+
         public UnitOfWork(string connectionString)
         {
             _projectContext = new ProjectContext(connectionString);
+
+            UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(_projectContext));
+            RoleManager = new ApplicationRoleManager(new RoleStore<ApplicationRole>(_projectContext));
+
+            UserManager.PasswordValidator = passwordValidator;
+            UserManager.UserValidator = new AppUserValidator(UserManager);
         }
 
+      
         public IRepository<ExecutorCompany> ExecutorCompanies
         {
             get
@@ -84,6 +106,11 @@ namespace Projects.DAL.Repositories
         public void Save()
         {
             _projectContext.SaveChanges();
+        }
+
+        public async Task SaveAsync()
+        {
+            await _projectContext.SaveChangesAsync();
         }
 
         private bool disposed = false;

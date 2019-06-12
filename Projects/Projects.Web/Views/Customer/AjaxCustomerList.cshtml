@@ -1,7 +1,6 @@
 ﻿@model PagedList.IPagedList<Projects.Web.Models.Entities.CustomerVM>
 @using PagedList;
 @using PagedList.Mvc;
-
 <table class="table table-responsive-sm table-responsive-md table-responsive-lg table-sm" id="listTable">
     <thead>
         <tr>
@@ -17,7 +16,6 @@
             <th></th>
         </tr>
     </thead>
-
     <tbody>
         @foreach (var item in Model)
         {
@@ -27,23 +25,22 @@
                 <td>@Html.DisplayFor(modelItem => item.Phone)</td>
                 <td>@Html.DisplayFor(modelItem => item.Email)</td>
                 <td>@Html.DisplayFor(modelItem => item.Fax)</td>
-
                 <td>
-                    @*@if (User.IsInRole("admin"))
-                        {*@
-                    <div class="btn-group float-right" role="group">
-                        <a class="btn btn-info btn-action" name="editButton" id="editButton" href="@Url.Action("Edit", "Customer", new { id = item.Id })"><i class="fa fa-pencil" aria-hidden="true" title="Редактировать" data-toggle="tooltip" data-placement="top"></i><span class="hidden-text"> Редактировать</span></a>
-                        <a class="btn btn-warning btn-action" name="detailsButton" id="detailsButton" href="@Url.Action("Details", "Customer", new { id = item.Id })"><i class="fa fa-eye" aria-hidden="true" title="Просмотреть" data-toggle="tooltip" data-placement="top"></i><span class="hidden-text"> Просмотреть</span></a>
-                        <a class="btn btn-danger delete-prompt btn-action" name="deleteButton" id="@item.Id"><i class="fa fa-trash" aria-hidden="true" title="Удалить" data-toggle="tooltip" data-placement="top"></i><span class="hidden-text"> Удалить</span></a>
-                    </div>
-                    @*}
-                        else if (User.IsInRole("manager"))
-                        {
-                            <div class="btn-group float-right" role="group">
-                                <a class="btn btn-info" name="editButton" id="editButton" href="@Url.Action("Edit", "QuestionType", new { id = item.Id })"><i class="fa fa-pencil" aria-hidden="true" title="Редактировать" data-toggle="tooltip" data-placement="top"></i> Редактировать</a>
-                                <a class="btn btn-warning" name="detailsButton" id="detailsButton" href="@Url.Action("Details", "QuestionType", new { id = item.Id })"><i class="fa fa-eye" aria-hidden="true" title="Просмотреть" data-toggle="tooltip" data-placement="top"></i> Просмотреть</a>
-                            </div>
-                        }*@
+                    @if (User.IsInRole("admin"))
+                    {
+                        <div class="btn-group float-right" role="group">
+                            <a class="btn btn-info btn-action" name="editButton" id="editButton" href="@Url.Action("Edit", "Customer", new { id = item.Id })"><i class="fa fa-pencil" aria-hidden="true" title="Редактировать" data-toggle="tooltip" data-placement="top"></i><span class="hidden-text"> Редактировать</span></a>
+                            <a class="btn btn-warning btn-action" name="detailsButton" id="detailsButton" href="@Url.Action("Details", "Customer", new { id = item.Id })"><i class="fa fa-eye" aria-hidden="true" title="Просмотреть" data-toggle="tooltip" data-placement="top"></i><span class="hidden-text"> Просмотреть</span></a>
+                            <a class="btn btn-danger delete-prompt btn-action" name="deleteButton" id="@item.Id"><i class="fa fa-trash" aria-hidden="true" title="Удалить" data-toggle="tooltip" data-placement="top"></i><span class="hidden-text"> Удалить</span></a>
+                        </div>
+                    }
+                    else if (User.IsInRole("manager"))
+                    {
+                        <div class="btn-group float-right" role="group">
+                            <a class="btn btn-info btn-action" name="editButton" id="editButton" href="@Url.Action("Edit", "Customer", new { id = item.Id })"><i class="fa fa-pencil" aria-hidden="true" title="Редактировать" data-toggle="tooltip" data-placement="top"></i><span class="hidden-text"> Редактировать</span></a>
+                            <a class="btn btn-warning btn-action" name="detailsButton" id="detailsButton" href="@Url.Action("Details", "Customer", new { id = item.Id })"><i class="fa fa-eye" aria-hidden="true" title="Просмотреть" data-toggle="tooltip" data-placement="top"></i><span class="hidden-text"> Просмотреть</span></a>
+                        </div>
+                    }
                 </td>
             </tr>
         }
@@ -52,7 +49,6 @@
 @Html.PagedListPager(Model, page => Url.Action("AjaxCustomerList", new { sortOrder = ViewBag.CurrentSort, page }),
  PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "result" }))
     Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
-
     <!-- Bootstrap modal popup -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -73,8 +69,6 @@
             </div>
         </div>
     </div>
-
     <script>
         modalRemovalWindow('/Customer/Delete');
     </script>
-

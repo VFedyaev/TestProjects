@@ -12,8 +12,8 @@ namespace Projects.Web.Models.Entities
 
         [Display(Name = "Должность")]
         [StringLength(50, ErrorMessage = "Длина строки не должна превышать 50 символов")]
-        [RegularExpression(@"^[a-zA-ZЁёӨөҮүҢңА-Яа-я - # +]+$", ErrorMessage = "Ввод цифр запрещен")]
         [Required(ErrorMessage = "Заполните поле!")]
+        [RegularExpression(@"^[a-zA-ZЁёӨөҮүҢңА-Яа-я - # +]+$", ErrorMessage = "Ввод цифр запрещен")]
         public string Name { get; set; }
 
         public ICollection<EmployeeDTO> Employees { get; set; }
